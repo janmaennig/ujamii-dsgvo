@@ -105,9 +105,7 @@ class DbOperationsService
                 default:
                 case self::MODE_SELECT:
                     // set table and where clause
-                    $queryBuilder
-                        ->select($tableConfig['select'] ?? 'uid')
-                        ->from($table);
+                    $queryBuilder->select($tableConfig['select'] ?? 'uid')->from($table);
                     break;
 
                 case self::MODE_DELETE:
@@ -141,23 +139,15 @@ class DbOperationsService
 
             // all deleted items?
             if ($tableConfig['allDeleted'] && !empty($GLOBALS['TCA'][$table]['ctrl']['delete'])) {
-                $queryBuilder->orWhere(
-                    $queryBuilder->expr()->eq(
-                        $GLOBALS['TCA'][$table]['ctrl']['delete'],
-                        $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)
-                    )
-                );
+                $queryBuilder->orWhere($queryBuilder->expr()->eq($GLOBALS['TCA'][$table]['ctrl']['delete'],
+                    $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)));
             }
 
             // add where part to skip handled records
             foreach ($this->ctrlTimeFields as $ctrlField) {
                 if (!empty($GLOBALS['TCA'][$table]['ctrl'][$ctrlField])) {
-                    $queryBuilder->andWhere(
-                        $queryBuilder->expr()->neq(
-                            $GLOBALS['TCA'][$table]['ctrl'][$ctrlField],
-                            $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                        )
-                    );
+                    $queryBuilder->andWhere($queryBuilder->expr()->neq($GLOBALS['TCA'][$table]['ctrl'][$ctrlField],
+                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)));
                 }
             }
 
@@ -214,11 +204,7 @@ class DbOperationsService
             switch ($mode) {
                 default:
                 case self::MODE_SELECT:
-                    return $db->exec_SELECTcountRows(
-                        $tableConfig['select'] ?? 'uid',
-                        $table,
-                        $where
-                    );
+                    return $db->exec_SELECTcountRows($tableConfig['select'] ?? 'uid', $table, $where);
                     break;
 
                 case self::MODE_DELETE:
@@ -244,11 +230,7 @@ class DbOperationsService
                             }
                         }
 
-                        $res = $db->exec_UPDATEquery(
-                            $table,
-                            $where,
-                            $fieldsValues
-                        );
+                        $res = $db->exec_UPDATEquery($table, $where, $fieldsValues);
                         if (false !== $res) {
                             return $db->sql_affected_rows();
                         } else {
