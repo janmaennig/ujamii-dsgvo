@@ -6,6 +6,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
+use TYPO3\CMS\Core\Database\QueryGenerator;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -19,6 +20,8 @@ class DbOperationsService
     const MODE_SELECT = 'select';
     const MODE_DELETE = 'delete';
     const MODE_ANONYMIZE = 'anonymize';
+    const TREE_LIST_START = 0;
+    const TREE_LIST_PERM_CLAUSE = 1;
 
     /**
      * TsConfig configuration
@@ -33,6 +36,27 @@ class DbOperationsService
      * @var array
      */
     protected $ctrlTimeFields = ['tstamp', 'crdate'];
+
+    /**
+     * @param int $rootPageId
+     * @param int $depth
+     *
+     * @return array
+     */
+    public function getPageTreeByRootPageId($rootPageId, $depth = 999999)
+    {
+        /** @var QueryGenerator $queryGenerator */
+        $queryGenerator = $this->getQueryGenerator();
+        $rGetTreeList = $queryGenerator->getTreeList(
+            $rootPageId,
+            $depth,
+            self::TREE_LIST_START,
+            self::TREE_LIST_PERM_CLAUSE
+        );
+        $pageIds = explode(',', $rGetTreeList);
+
+        return $pageIds;
+    }
 
     /**
      * @param string $mode
@@ -234,7 +258,16 @@ class DbOperationsService
                     break;
             }
         }
+
         return 0;
+    }
+
+    /**
+     * @return QueryGenerator
+     */
+    protected function getQueryGenerator()
+    {
+        return GeneralUtility::makeInstance(QueryGenerator::class);
     }
 
     /**
