@@ -1,3 +1,33 @@
+## 1.0.0 (September 18, 2019)
+  - [FEATURE] Adding compatibility for TYPO3 v9
+  - [DOC] fixed packagist link
+  - [DOC] added packagist badge
+  - [TASK] PSR-1/2 code style
+  - [BUGFIX] added missing config for powermail table
+
+## 0.4.3 (May 15, 2018)
+  - [RELEASE] bumped version
+  - [BUGFIX] fixed order of query parts in v8 method
+
+## 0.4.2 (May 14, 2018)
+  - [RELEASE] bumped version
+  - [TASK] improved translation integration
+
+## 0.4.1 (May 11, 2018)
+  - [RELEASE] marked 0.4.1 as stable 
+  - [BUGFIX] excluded external assets from compression
+  - [RELEASE] bumped version
+
+## 0.4.0 (May 10, 2018)
+  - [DOC] added doc part for new anonymization mode
+  - [FEATURE] set MODE_ANONYMIZE instead of MODE_DELETE as default action
+  - [FEATURE] added anonymization mode for v7 (legacy)
+  - [FEATURE] added anonymization mode for v8 in be module
+  - [FEATURE] added anonymization mode for v8 on cli
+  - [DOC] fixed link
+  - [DOC] added alternative installation guide via archive file
+  - [DOC] removed TODOs from readme (see GitHub issues)
+
 ## 0.3.0 (April 26, 2018)
   - [RELEASE] adjusted dependency and version info
   - [FEATURE] fixes #4 (TYPO3 7.6LTS compat)
